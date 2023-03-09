@@ -1,6 +1,7 @@
 import { classNames } from '@/utils/classNames'
+import { Noto_Sans, Noto_Sans_KR } from 'next/font/google'
 import Head from 'next/head'
-import { Noto_Sans_KR, Noto_Sans } from 'next/font/google'
+import { FormEventHandler, useCallback } from 'react'
 
 const notoSansKR = Noto_Sans_KR({
   weight: ['400'],
@@ -15,6 +16,27 @@ const notoSans = Noto_Sans({
   variable: '--font-notoSans',
   subsets: ['latin'],
 })
+
+const Form = () => {
+  const onSubmit = useCallback<FormEventHandler<HTMLFormElement>>((e) => {
+    e.preventDefault()
+    const body = new FormData(e.target as HTMLFormElement)
+
+    fetch('/api/convert', {
+      method: 'POST',
+      body,
+    })
+  }, [])
+
+  return (
+    <form onSubmit={onSubmit}>
+      <label>
+        <input type="file" name="token"></input>
+        <button type="submit">전송</button>
+      </label>
+    </form>
+  )
+}
 
 export default function Home() {
   return (
@@ -32,7 +54,7 @@ export default function Home() {
           'font-sans'
         )}
       >
-        <h1 className="text-3xl font-bold underline">한글</h1>
+        <Form />
       </main>
     </>
   )
