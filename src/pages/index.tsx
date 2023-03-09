@@ -1,4 +1,4 @@
-import {classNames} from "@/utils/classNames";
+import { classNames } from '@/utils/classNames'
 import Head from 'next/head'
 import { Noto_Sans_KR, Noto_Sans } from 'next/font/google'
 
@@ -25,10 +25,14 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={classNames(notoSansKR.variable, notoSans.variable, 'font-sans')}>
-        <h1 className="text-3xl font-bold underline">
-          한글
-        </h1>
+      <main
+        className={classNames(
+          notoSansKR.variable,
+          notoSans.variable,
+          'font-sans'
+        )}
+      >
+        <h1 className="text-3xl font-bold underline">한글</h1>
       </main>
     </>
   )
