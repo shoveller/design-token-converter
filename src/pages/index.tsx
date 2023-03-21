@@ -1,7 +1,7 @@
 import { classNames } from '@/utils/classNames'
 import { Noto_Sans, Noto_Sans_KR } from 'next/font/google'
 import Head from 'next/head'
-import { FormEventHandler, useCallback } from 'react'
+import { FormEventHandler, useState } from 'react'
 
 const notoSansKR = Noto_Sans_KR({
   weight: ['400'],
@@ -18,23 +18,34 @@ const notoSans = Noto_Sans({
 })
 
 const Form = () => {
-  const onSubmit = useCallback<FormEventHandler<HTMLFormElement>>((e) => {
+  const [isShowLink, setShowLink] = useState(false)
+  const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
     const body = new FormData(e.target as HTMLFormElement)
 
-    fetch('/api/convert', {
-      method: 'POST',
-      body,
-    })
-  }, [])
+    try {
+      await fetch('/api/upload', {
+        method: 'POST',
+        body,
+      })
+      setShowLink(true)
+    } catch (e) {
+      alert(e)
+    }
+  }
 
   return (
-    <form onSubmit={onSubmit}>
-      <label>
-        <input type="file" name="token"></input>
-        <button type="submit">전송</button>
-      </label>
-    </form>
+    <>
+      <form onSubmit={onSubmit}>
+        <label>
+          <input type="file" name="token"></input>
+          <button type="submit">전송</button>
+        </label>
+      </form>
+      <a href="/themes/css/global.css" target="_blank" hidden={!isShowLink}>
+        css 다운로드
+      </a>
+    </>
   )
 }
 
